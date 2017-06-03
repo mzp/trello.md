@@ -1,0 +1,9 @@
+version: "2"
+services:
+  app:
+    build:
+      context: ./config/docker
+      dockerfile: Dockerfile.app
+    command: bash
+    volumes:
+      - .:/trello.md
