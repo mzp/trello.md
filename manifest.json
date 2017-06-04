@@ -12,7 +12,7 @@
   "default_locale": "en",
   "background": {
     "scripts": [
-      "src/bg/background.js"
+      "js/bg.bundle.js"
     ],
     "persistent": true
   },
