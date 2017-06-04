@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/mzp/trello.md/issues"
   },
-  "homepage": "https://github.com/mzp/trello.md#readme"
+  "homepage": "https://github.com/mzp/trello.md#readme",
+  "dependencies": {
+    "bs-platform": "^1.7.4",
+    "webpack": "^2.6.1"
+  }
 }
