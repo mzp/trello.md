@@ -1,4 +1,5 @@
 type t = Js.t {.
+  id : string,
   avatarHash: string,
   username: string
 };
