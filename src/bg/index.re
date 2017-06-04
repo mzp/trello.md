@@ -17,11 +17,11 @@ let create_trello () => {
       Trello.set_token t token;
       Js.Promise.resolve t;
     | None =>
-      Trello.auth t [%bs.obj {
-        name: "Trello.md",
-        expiration: "never",
-        scope: { read: true, write: false, account: false }
-      }]
+      Trello.auth t {
+        "name": "Trello.md",
+        "expiration": "never",
+        "scope": { "read": true, "write": false, "account": false }
+      }
       |> Js.Promise.then_ (fun () => {
         LocalStorage.set_item "token" (Trello.token t);
         Js.Promise.resolve t
