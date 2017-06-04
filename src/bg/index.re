@@ -1,4 +1,5 @@
 let domain = Js.Re.fromString "trello[.]com";
+let app_key = "d79e101f262c8b20de7993cdc98cd5b2";
 
 let show_if_trello tab_id _ tab => {
   switch (Js.Null.to_opt tab##url) {
@@ -9,7 +10,32 @@ let show_if_trello tab_id _ tab => {
   }
 };
 
+let create_trello () => {
+  let t = Trello.create app_key;
+  switch (Js.Null.to_opt @@ LocalStorage.get_item "token") {
+    | Some token =>
+      Trello.set_token t token;
+      Js.Promise.resolve t;
+    | None =>
+      Trello.auth t [%bs.obj {
+        name: "Trello.md",
+        expiration: "never",
+        scope: { read: true, write: false, account: false }
+      }]
+      |> Js.Promise.then_ (fun () => {
+        LocalStorage.set_item "token" (Trello.token t);
+        Js.Promise.resolve t
+      })
+  }
+};
+
 let copy_to_clipboard tab => {
+  let trello = create_trello ();
+/*  Trello.auth trello [%bs.obj {
+    name: "Trello.md",
+    expiration: "never",
+    scope: { read: true, write: false, account: false }
+  }];*/
   Js.log tab##url;
 };
 
