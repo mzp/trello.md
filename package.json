@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mzp/trello.md#readme",
   "dependencies": {
     "bs-platform": "^1.7.4",
+    "trello-browser": "^0.0.6",
     "webpack": "^2.6.1"
   }
 }
