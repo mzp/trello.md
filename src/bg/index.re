@@ -9,4 +9,9 @@ let show_if_trello tab_id _ tab => {
   }
 };
 
+let copy_to_clipboard tab => {
+  Js.log tab##url;
+};
+
 Chrome.Tabs.OnUpdated.add_listener show_if_trello;
+Chrome.PageAction.OnClicked.add_listener copy_to_clipboard;

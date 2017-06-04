@@ -19,8 +19,7 @@
   "options_page": "src/options/index.html",
   "page_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "Trello.md",
-    "default_popup": "src/page_action/page_action.html"
+    "default_title": "Trello.md"
   },
   "permissions": [
     "clipboardWrite",
