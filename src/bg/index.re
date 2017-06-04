@@ -10,6 +10,10 @@ let show_if_trello tab_id _ tab => {
   }
 };
 
+let all3 : Js.Promise.t 'a => Js.Promise.t 'b => Js.Promise.t 'c => Js.Promise.t ('a, 'b, 'c) = fun x y z =>
+  Js.Promise.all [| Obj.magic x, Obj.magic y, Obj.magic z|]
+  |> Js.Promise.then_ (fun xs => Js.Promise.resolve (Obj.magic xs.(0), Obj.magic xs.(1), Obj.magic xs.(2)));
+
 let create_trello () => {
   let t = Trello.create app_key;
   switch (Js.Null.to_opt @@ LocalStorage.get_item "token") {
@@ -34,9 +38,16 @@ let copy_to_clipboard tab => {
   |> Js.Promise.then_ (fun client =>
     Js.Null.to_opt tab##url
     |> Option.then_ Board.parse_url
-    |> Option.map (Member.fetch client)
-    |> Option.get (Js.Promise.resolve []))
-  |> Js.Promise.then_ (fun xs => { Js.log xs; Js.Promise.resolve () });
+    |> Option.map (fun id =>
+      all3
+        (TrelloList.fetch client id)
+        (Card.fetch client id)
+        (Member.fetch client id))
+    |> Option.get (Js.Promise.resolve ([], [], [])))
+  |> Js.Promise.then_ (fun (lists, cards, members) => {
+    Js.Promise.resolve (ListWithCard.make lists::lists cards::cards members::members)
+  })
+  |> Js.Promise.then_ (fun x => { Js.log x; Js.Promise.resolve () });
   ()
 };
 
