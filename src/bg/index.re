@@ -32,10 +32,10 @@ let create_trello () => {
 let copy_to_clipboard tab => {
   create_trello ()
   |> Js.Promise.then_ (fun client =>
-  switch(Js.Null.to_opt tab##url) {
-    | Some url => Board.members client url
-    | None => Js.Promise.resolve Js.Json.null
-  })
+    Js.Null.to_opt tab##url
+    |> Option.then_ Board.parse_url
+    |> Option.map (Member.fetch client)
+    |> Option.get (Js.Promise.resolve []))
   |> Js.Promise.then_ (fun xs => { Js.log xs; Js.Promise.resolve () });
   ()
 };
