@@ -7,3 +7,7 @@ services:
     command: bash
     volumes:
       - .:/trello.md
+      - npm-data:/home/opam/.npm
+volumes:
+  npm-data:
+    driver: local
