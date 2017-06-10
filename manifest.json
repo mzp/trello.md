@@ -1,8 +1,8 @@
 {
   "name": "Trello.md",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 2,
-  "description": "This extension was created with the awesome extensionizr.com",
+  "description": "Copy trello board information to clipboard as markdown format.",
   "homepage_url": "http://github.com/mzp/trello.md",
   "icons": {
     "16": "icons/icon16.png",
@@ -14,7 +14,6 @@
     "page": "js/bg.html",
     "persistent": true
   },
-  "options_page": "src/options/index.html",
   "page_action": {
     "default_icon": "icons/icon19.png",
     "default_title": "Trello.md"
