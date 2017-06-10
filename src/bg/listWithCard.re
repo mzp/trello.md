@@ -1,6 +1,7 @@
 type s = {
   card : Card.t,
-  members: list Member.t
+  members : list Member.t,
+  actions : list (Card.action, Member.t)
 };
 type t = {
   list : TrelloList.t,
@@ -19,7 +20,12 @@ let make_card card_table member_table card => {
     card##idMembers
     |> Array.to_list
     |> List.map (Hashtbl.find member_table);
-  { card : c, members : members };
+  let actions =
+    c##actions
+    |> Array.to_list
+    |> List.map (fun action =>
+      (action, Hashtbl.find member_table action##idMemberCreator));
+  { card : c, members, actions };
 };
 
 let make_list card_table member_table list => {
@@ -27,7 +33,7 @@ let make_list card_table member_table list => {
     list##cards
     |> Array.to_list
     |> List.map (make_card card_table member_table);
-  { list: list, cards : cards }
+  { list, cards }
 };
 
 let make lists::lists cards::cards members::members => {

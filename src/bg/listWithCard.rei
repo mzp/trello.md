@@ -1,6 +1,7 @@
 type s = {
   card : Card.t,
-  members: list Member.t
+  members : list Member.t,
+  actions : list (Card.action, Member.t)
 };
 type t = {
   list : TrelloList.t,

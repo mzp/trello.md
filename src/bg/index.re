@@ -47,6 +47,7 @@ let copy_to_clipboard tab => {
   |> Js.Promise.then_ (fun (lists, cards, members) => {
     Js.Promise.resolve (ListWithCard.make lists::lists cards::cards members::members)
   })
+  |> Js.Promise.then_ (fun x => Js.Promise.resolve (Markdown.format x))
   |> Js.Promise.then_ (fun x => { Js.log x; Js.Promise.resolve () });
   ()
 };
