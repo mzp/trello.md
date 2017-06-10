@@ -1,10 +1,10 @@
 open Printf;
 
-let h1 buffer title => Buffer.add_string buffer ("# " ^ title ^ "\n");
-let h2 buffer title => Buffer.add_string buffer ("## " ^ title ^ "\n");
+let h1 buffer title => Buffer.add_string buffer ("# " ^ title ^ "\n\n");
+let h2 buffer title => Buffer.add_string buffer ("## " ^ title ^ "\n\n");
 let quote buffer text => {
   let s = Js.String.replaceByRe (Js.Re.fromStringWithFlags "\n" flags::"g") "\n> " text;
-  Buffer.add_string buffer ("> " ^ s ^ "\n")
+  Buffer.add_string buffer ("> " ^ s ^ "\n\n")
 };
 
 let avatarUrl hash =>
