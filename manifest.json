@@ -11,9 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [
-      "js/bg.bundle.js"
-    ],
+    "page": "js/bg.html",
     "persistent": true
   },
   "options_page": "src/options/index.html",

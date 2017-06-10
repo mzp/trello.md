@@ -1,0 +1,1 @@
+let write : string => unit;
