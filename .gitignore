@@ -7,5 +7,5 @@ npm-debug.log*
 
 # build output
 /lib
-/js
+/extension/js/bg.bundle.js
 .merlin
