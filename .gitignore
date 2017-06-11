@@ -9,3 +9,6 @@ npm-debug.log*
 /lib
 /extension/js/bg.bundle.js
 .merlin
+*.pem
+*.crx
+*.zip
