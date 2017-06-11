@@ -10,10 +10,6 @@ let show_if_trello tab_id _ tab => {
   }
 };
 
-let all3 : Js.Promise.t 'a => Js.Promise.t 'b => Js.Promise.t 'c => Js.Promise.t ('a, 'b, 'c) = fun x y z =>
-  Js.Promise.all [| Obj.magic x, Obj.magic y, Obj.magic z|]
-  |> Js.Promise.then_ (fun xs => Js.Promise.resolve (Obj.magic xs.(0), Obj.magic xs.(1), Obj.magic xs.(2)));
-
 let create_trello () => {
   let t = Trello.create app_key;
   switch (Js.Null.to_opt @@ LocalStorage.get_item "token") {
@@ -34,21 +30,30 @@ let create_trello () => {
 };
 
 let copy_to_clipboard tab => {
+  Chrome.PageAction.set_icon {
+    "tabId": tab##id,
+    "path": "../icons/executing.png"
+  };
   create_trello ()
   |> Js.Promise.then_ (fun client =>
     Js.Null.to_opt tab##url
     |> Option.then_ Board.parse_url
     |> Option.map (fun id =>
-      all3
-        (TrelloList.fetch client id)
-        (Card.fetch client id)
-        (Member.fetch client id))
+      Promise_.all3
+        (TrelloList.fetch client id,
+         Card.fetch client id,
+         Member.fetch client id))
     |> Option.get (Js.Promise.resolve ([], [], [])))
   |> Js.Promise.then_ (fun (lists, cards, members) => {
     Js.Promise.resolve (ListWithCard.make lists::lists cards::cards members::members)
   })
   |> Js.Promise.then_ (fun x => Js.Promise.resolve (Markdown.format x))
-  |> Js.Promise.then_ (fun x => { Clipboard.write x; Js.Promise.resolve () })
+  |> Promise_.map Clipboard.write
+  |> Promise_.map (fun () =>
+    Chrome.PageAction.set_icon {
+      "tabId": tab##id,
+      "path": "../icons/icon19.png"
+    })
   |> ignore;
   ()
 };
