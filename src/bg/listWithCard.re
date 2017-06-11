@@ -39,5 +39,5 @@ let make_list card_table member_table list => {
 let make lists::lists cards::cards members::members => {
   let card_table = tablize (fun x => x##id) cards;
   let member_table = tablize (fun x => x##id) members;
-  ListLabels.map (make_list card_table member_table) lists;
+  List.map (make_list card_table member_table) lists;
 }
