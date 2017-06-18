@@ -34,7 +34,8 @@ let format xs => {
       quote buffer card##desc;
       ListLabels.iter actions f::(fun (action, member) => {
         quote buffer "----";
-        quote buffer (sprintf "%s %s" (avatar member) action##date);
+        Option.iter (fun m =>
+                     quote buffer (sprintf "%s %s" (avatar m) action##date)) member;
         Js.Undefined.iter action##data##text
           ((fun text => quote buffer text) [@bs]);
         Js.Undefined.iter action##data##attachment

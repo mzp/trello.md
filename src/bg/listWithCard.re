@@ -1,7 +1,7 @@
 type s = {
   card : Card.t,
   members : list Member.t,
-  actions : list (Card.action, Member.t)
+  actions : list (Card.action, option Member.t)
 };
 type t = {
   list : TrelloList.t,
@@ -14,17 +14,26 @@ let tablize : ('a => string) => list 'a => Hashtbl.t string 'a = fun f xs => {
   tbl
 };
 
+let filter_map f xs =>
+  List.concat (List.map (fun x => Option.to_list (f x)) xs);
+
+let find tbl x => {
+  try (Some (Hashtbl.find tbl x)) {
+  | Not_found => None
+  }
+};
+
 let make_card card_table member_table card => {
   let c = Hashtbl.find card_table card##id;
   let members =
     card##idMembers
     |> Array.to_list
-    |> List.map (Hashtbl.find member_table);
+    |> filter_map (find member_table);
   let actions =
     c##actions
     |> Array.to_list
     |> List.map (fun action =>
-      (action, Hashtbl.find member_table action##idMemberCreator));
+      (action, find member_table action##idMemberCreator));
   { card : c, members, actions };
 };
 

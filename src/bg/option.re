@@ -5,6 +5,13 @@ let then_ f x => {
   }
 };
 
+let iter f x => {
+  switch x {
+    | Some y => f y
+    | None => ()
+  }
+};
+
 let map f x => {
   switch (x) {
     | Some y => Some (f y)
@@ -16,6 +23,13 @@ let get or_else x => {
   switch (x) {
     | Some y => y
     | None => or_else
+  }
+};
+
+let to_list x => {
+  switch x {
+    | Some y => [y]
+    | None => []
   }
 };
 
