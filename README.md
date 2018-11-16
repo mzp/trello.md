@@ -14,7 +14,7 @@ To markdown text like this:
 ```sh
 docker-compose build
 docker-compose run app yarn
-docker-comyose run app yarn build
+docker-compose run app yarn build
 ```
 
 And load unpack extension from `extension/`.
