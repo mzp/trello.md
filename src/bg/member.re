@@ -1,6 +1,6 @@
 type t = Js.t {.
   id: string,
-  avatarHash: string,
+  avatarHash: Js.Null.t string,
   username: string
 };
 
