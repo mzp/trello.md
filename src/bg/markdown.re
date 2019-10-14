@@ -10,8 +10,13 @@ let quote buffer text => {
 let avatarUrl hash =>
   sprintf "https://trello-avatars.s3.amazonaws.com/%s/30.png" hash;
 
-let avatar member =>
-  sprintf "![%s](%s)" member##username (avatarUrl member##avatarHash);
+let avatar member => {
+  let hash = Js.Null.to_opt member##avatarHash;
+  switch(hash) {
+    | Some hash => sprintf "![%s](%s)" member##username (avatarUrl hash)
+    | None => member##username
+  };
+};
 
 let attachment obj => {
   let url =
