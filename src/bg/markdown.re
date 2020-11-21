@@ -7,13 +7,13 @@ let quote buffer text => {
   Buffer.add_string buffer ("> " ^ s ^ "\n\n")
 };
 
-let avatarUrl hash =>
-  sprintf "https://trello-avatars.s3.amazonaws.com/%s/30.png" hash;
+let avatarUrl id hash =>
+  sprintf "https://trello-members.s3.amazonaws.com/%s/%s/30.png" id hash;
 
 let avatar member => {
   let hash = Js.Null.to_opt member##avatarHash;
   switch(hash) {
-    | Some hash => sprintf "![%s](%s)" member##username (avatarUrl hash)
+    | Some hash => sprintf "![%s](%s)" member##username (avatarUrl member##id hash)
     | None => member##username
   };
 };
